@@ -77,19 +77,19 @@ export default class Bitbutter {
         return await this.getRequest(`users/${userId}/connected-addresses`);
     }
 
-    public async getUserConnectedExchangesBalance(userId) {
+    public async getUserConnectedExchangesBalances(userId) {
         return await this.getRequest(`users/${userId}/connected-exchanges/balances`);
     }
 
-    public async getUserConnectedAddressesBalance(userId) {
+    public async getUserConnectedAddressesBalances(userId) {
         return await this.getRequest(`users/${userId}/connected-addresses/balances`);
     }
 
-    public async getConnectedExchangeBalance(connectedExchangeId) {
+    public async getConnectedExchangeBalances(connectedExchangeId) {
         return await this.getRequest(`connected-exchanges/${connectedExchangeId}/balances`);
     }
 
-    public async getConnectedAddressBalance(connectedAddressId) {
+    public async getConnectedAddressBalances(connectedAddressId) {
         return await this.getRequest(`connected-addresses/${connectedAddressId}/balances`);
     }
 
