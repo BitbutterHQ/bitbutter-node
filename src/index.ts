@@ -19,16 +19,16 @@ export default class Bitbutter {
         this.apiUrl = apiUrl;
     }
 
+    public async getAllUsers() {
+        return await this.getRequest(`partnerships/${this.partnershipId}/users`);
+    }
+
     public async createUser() {
         return await this.postRequest("users", null);
     }
 
     public async deleteUser(userId) {
         return await this.deleteRequest(`users/${userId}`);
-    }
-
-    public async getAllUsers() {
-        return await this.getRequest(`partnerships/${this.partnershipId}/users`);
     }
 
     public async getAllExchanges() {
@@ -77,11 +77,19 @@ export default class Bitbutter {
         return await this.getRequest(`users/${userId}/connected-addresses`);
     }
 
-    public async getConnectedExchangeBalance(userId, connectedExchangeId) {
+    public async getUserConnectedExchangesBalance(userId) {
+        return await this.getRequest(`users/${userId}/connected-exchanges/balances`);
+    }
+
+    public async getUserConnectedAddressesBalance(userId) {
+        return await this.getRequest(`users/${userId}/connected-addresses/balances`);
+    }
+
+    public async getConnectedExchangeBalance(connectedExchangeId) {
         return await this.getRequest(`connected-exchanges/${connectedExchangeId}/balances`);
     }
 
-    public async getConnectedAddressBalance(userId, connectedAddressId) {
+    public async getConnectedAddressBalance(connectedAddressId) {
         return await this.getRequest(`connected-addresses/${connectedAddressId}/balances`);
     }
 
@@ -89,16 +97,16 @@ export default class Bitbutter {
         return await this.getRequest(`users/${userId}/connected-exchanges/ledger`);
     }
 
-    public async getUserConnectedExchangeLedger(userId, connectedExchangeId) {
-        return await this.getRequest(`connected-exchanges/${connectedExchangeId}/ledger`);
-    }
-
     public async getUserConnectedAddressesLedger(userId) {
         return await this.getRequest(`users/${userId}/connected-addresses/ledger`);
     }
 
-    public async getUserConnectedAddressLedger(userId, connectedAddressId) {
+    public async getConnectedAddressLedger(connectedAddressId) {
         return await this.getRequest(`connected-addresses/${connectedAddressId}/ledger`);
+    }
+
+    public async getConnectedExchangeLedger(connectedExchangeId) {
+        return await this.getRequest(`connected-exchanges/${connectedExchangeId}/ledger`);
     }
 
     private generateSignature(options: RequestOptions): string {
