@@ -1,0 +1,13 @@
+{
+    "defaultSeverity": "error",
+    "extends": [
+        "tslint:recommended",
+        "tslint-no-unused-expression-chai"
+    ],
+    "jsRules": {},
+    "rules": {
+        "no-console": false,
+        "interface-name": [true, "never-prefix"]
+    },
+    "rulesDirectory": []
+}
