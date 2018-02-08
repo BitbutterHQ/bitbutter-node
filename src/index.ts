@@ -1,22 +1,25 @@
 import * as crypto from "crypto";
 import * as WebRequest from "web-request";
 
-import { RequestHeaders, RequestOptions } from "./types";
+import {
+    InitialConfig,
+    RequestHeaders,
+    RequestOptions,
+} from "./types";
 
 export default class Bitbutter {
     public partnershipId = "";
     public partnerId = "";
     public apiKey = "";
     public secret = "";
-    public apiUrl = "";
+    public apiUrl = "http://localhost:3000";
     private version = "1";
 
-    constructor(partnershipId, partnerId, apiKey, secret, apiUrl = "https://api.bitbutter.com") {
-        this.partnershipId = partnershipId;
-        this.partnerId = partnerId;
-        this.apiKey = apiKey;
-        this.secret = secret;
-        this.apiUrl = apiUrl;
+    constructor(config: InitialConfig) {
+        this.partnershipId = config.partnershipId;
+        this.partnerId = config.partnerId;
+        this.apiKey = config.apiKey;
+        this.secret = config.secret;
     }
 
     public async getAllUsers() {
@@ -124,7 +127,7 @@ export default class Bitbutter {
     }
 
     private generateHeaders(method, requestPath, body): RequestHeaders {
-        const timestamp = Date.now() / 1000;
+        const timestamp = +new Date();
 
         const signature = this.generateSignature({
             body,
@@ -135,36 +138,42 @@ export default class Bitbutter {
 
         return {
             "BB-ACCESS-KEY": this.apiKey,
+            "BB-ACCESS-SIGN": signature,
             "BB-PARTNER-ID": this.partnerId,
-            "BB-SIGNATURE": signature,
             "BB-TIMESTAMP": timestamp,
         };
     }
 
+    private generateFullPath(requestPath): string {
+        return `${this.apiUrl}${requestPath}`;
+    }
+
     private generateRequestPath(path): string {
-        return `${this.apiUrl}/v${this.version}/${path}`;
+        return `/v${this.version}/${path}`;
     }
 
     private async generateRequest(name, path, body): Promise<WebRequest.Response<string>> {
         const requestPath = this.generateRequestPath(path);
+        const fullPath = this.generateFullPath(requestPath);
+
         const headers = this.generateHeaders(name, requestPath, body);
         let response;
 
         switch (name) {
             case "GET":
-                response = await WebRequest.get(`${requestPath}`, { headers });
+                response = await WebRequest.get(`${fullPath}`, { headers });
                 break;
             case "POST":
-                response = await WebRequest.post(`${requestPath}`, { headers }, body);
+                response = await WebRequest.post(`${fullPath}`, { headers }, body);
                 break;
             case "DELETE":
-                response = await WebRequest.delete(`${requestPath}`, { headers });
+                response = await WebRequest.delete(`${fullPath}`, { headers });
                 break;
             default:
                 throw new Error("Invalid name");
         }
 
-        return response;
+        return response.body;
     }
 
     private async getRequest(path) {

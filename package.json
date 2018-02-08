@@ -11,6 +11,7 @@
   "license": "ISC",
   "devDependencies": {
     "@types/node": "^9.4.0",
+    "dotenv": "^5.0.0",
     "tslint": "^5.9.1",
     "tslint-no-unused-expression-chai": "^0.0.3",
     "typescript": "^2.7.1"
