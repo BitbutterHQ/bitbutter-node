@@ -27,7 +27,7 @@ export default class Bitbutter {
     }
 
     public async createUser() {
-        return await this.postRequest("users", null);
+        return await this.postRequest(`partnerships/${this.partnershipId}/users`, null);
     }
 
     public async deleteUser(userId) {
@@ -152,7 +152,7 @@ export default class Bitbutter {
         return `/v${this.version}/${path}`;
     }
 
-    private async generateRequest(name, path, body): Promise<WebRequest.Response<string>> {
+    private async generateRequest(name, path, body) {
         const requestPath = this.generateRequestPath(path);
         const fullPath = this.generateFullPath(requestPath);
 
@@ -173,7 +173,7 @@ export default class Bitbutter {
                 throw new Error("Invalid name");
         }
 
-        return response.body;
+        return JSON.parse(response.content);
     }
 
     private async getRequest(path) {
