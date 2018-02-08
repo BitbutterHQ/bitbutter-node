@@ -58,7 +58,7 @@ export default class Bitbutter {
     }
 
     public async disconnectAddress(connectedAddressId) {
-        return await this.deleteRequest(`/connected-addresses/${connectedAddressId}`);
+        return await this.deleteRequest(`connected-addresses/${connectedAddressId}`);
     }
 
     public async getUserLedger(userId) {
