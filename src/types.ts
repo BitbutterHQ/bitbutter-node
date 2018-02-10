@@ -18,3 +18,21 @@ export interface InitialConfig {
     partnershipId: string;
     secret: string;
 }
+
+export interface ConnectedExchangeRequestBody {
+    credentials: Credential;
+    exchange_id: string;
+    user_id: string;
+}
+
+interface Credential {
+    api_key: string;
+    password?: string;
+    secret: string;
+}
+
+export interface ConnectedAddressRequestBody {
+    asset_id: string;
+    address: string;
+    user_id: string;
+}

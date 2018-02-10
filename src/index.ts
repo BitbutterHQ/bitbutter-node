@@ -2,6 +2,8 @@ import * as crypto from "crypto";
 import * as WebRequest from "web-request";
 
 import {
+    ConnectedAddressRequestBody,
+    ConnectedExchangeRequestBody,
     InitialConfig,
     RequestHeaders,
     RequestOptions,
@@ -27,7 +29,7 @@ export default class Bitbutter {
     }
 
     public async createUser() {
-        return await this.postRequest(`partnerships/${this.partnershipId}/users`, null);
+        return await this.postRequest(`partnerships/${this.partnershipId}/users`);
     }
 
     public async deleteUser(userId) {
@@ -42,18 +44,20 @@ export default class Bitbutter {
         return await this.getRequest(`assets`);
     }
 
-    public async connectExchange(userId, exchangeId) {
-        const body = { exchange_id: exchangeId };
-        return await this.postRequest(`users/${userId}/connected-exchanges`, body);
+    public async connectExchange(body: ConnectedExchangeRequestBody) {
+        return await this.postRequest(`connected-exchanges`, body);
     }
 
-    public async connectAddress(userId, assetId, address) {
-        const body = {
-            address,
-            asset_id: assetId,
-        };
+    public async connectAddress(body: ConnectedAddressRequestBody) {
+        return await this.postRequest(`connected-addresses`, body);
+    }
 
-        return await this.postRequest(`users/${userId}/connected-addresses`, body);
+    public async getUserConnectedExchanges(userId) {
+        return await this.getRequest(`users/${userId}/connected-exchanges`);
+    }
+
+    public async getUserConnectedAddresses(userId) {
+        return await this.getRequest(`users/${userId}/connected-addresses`);
     }
 
     public async disconnectExchange(connectedExchangeId) {
@@ -68,41 +72,33 @@ export default class Bitbutter {
         return await this.getRequest(`users/${userId}/ledger`);
     }
 
-    public async getUserBalances(userId) {
-        return await this.getRequest(`users/${userId}/balances`);
-    }
+    // public async getUserBalances(userId) {
+    //     return await this.getRequest(`users/${userId}/balances`);
+    // }
 
-    public async getUserConnectedExchanges(userId) {
-        return await this.getRequest(`users/${userId}/connected-exchanges`);
-    }
+    // public async getUserConnectedExchangesBalances(userId) {
+    //     return await this.getRequest(`users/${userId}/connected-exchanges/balances`);
+    // }
 
-    public async getUserConnectedAddresses(userId) {
-        return await this.getRequest(`users/${userId}/connected-addresses`);
-    }
+    // public async getUserConnectedAddressesBalances(userId) {
+    //     return await this.getRequest(`users/${userId}/connected-addresses/balances`);
+    // }
 
-    public async getUserConnectedExchangesBalances(userId) {
-        return await this.getRequest(`users/${userId}/connected-exchanges/balances`);
-    }
+    // public async getConnectedExchangeBalances(connectedExchangeId) {
+    //     return await this.getRequest(`connected-exchanges/${connectedExchangeId}/balances`);
+    // }
 
-    public async getUserConnectedAddressesBalances(userId) {
-        return await this.getRequest(`users/${userId}/connected-addresses/balances`);
-    }
+    // public async getConnectedAddressBalances(connectedAddressId) {
+    //     return await this.getRequest(`connected-addresses/${connectedAddressId}/balances`);
+    // }
 
-    public async getConnectedExchangeBalances(connectedExchangeId) {
-        return await this.getRequest(`connected-exchanges/${connectedExchangeId}/balances`);
-    }
+    // public async getUserConnectedExchangesLedger(userId, connectedExchangeId) {
+    //     return await this.getRequest(`users/${userId}/connected-exchanges/${connectedExchangeId}/ledger`);
+    // }
 
-    public async getConnectedAddressBalances(connectedAddressId) {
-        return await this.getRequest(`connected-addresses/${connectedAddressId}/balances`);
-    }
-
-    public async getUserConnectedExchangesLedger(userId) {
-        return await this.getRequest(`users/${userId}/connected-exchanges/ledger`);
-    }
-
-    public async getUserConnectedAddressesLedger(userId) {
-        return await this.getRequest(`users/${userId}/connected-addresses/ledger`);
-    }
+    // public async getUserConnectedAddressesLedger(userId, connectedAddressId) {
+    //     return await this.getRequest(`users/${userId}/connected-addresses/${connectedAddressId}/ledger`);
+    // }
 
     public async getConnectedAddressLedger(connectedAddressId) {
         return await this.getRequest(`connected-addresses/${connectedAddressId}/ledger`);
@@ -164,7 +160,11 @@ export default class Bitbutter {
                 response = await WebRequest.get(`${fullPath}`, { headers });
                 break;
             case "POST":
-                response = await WebRequest.post(`${fullPath}`, { headers }, body);
+                const options = {
+                    headers,
+                    json: true,
+                };
+                response = await WebRequest.post(`${fullPath}`, options, body);
                 break;
             case "DELETE":
                 response = await WebRequest.delete(`${fullPath}`, { headers });
