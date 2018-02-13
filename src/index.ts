@@ -14,7 +14,7 @@ export default class Bitbutter {
     public partnerId = "";
     public apiKey = "";
     public secret = "";
-    public apiUrl = "http://localhost:3000";
+    public endpoint = "";
     private version = "1";
 
     constructor(config: InitialConfig) {
@@ -22,6 +22,7 @@ export default class Bitbutter {
         this.partnerId = config.partnerId;
         this.apiKey = config.apiKey;
         this.secret = config.secret;
+        this.endpoint = config.endpoint;
     }
 
     public async getAllUsers() {
@@ -29,7 +30,8 @@ export default class Bitbutter {
     }
 
     public async createUser() {
-        return await this.postRequest(`partnerships/${this.partnershipId}/users`);
+        const firstUser = await this.postRequest(`partnerships/${this.partnershipId}/users`);
+        return firstUser;
     }
 
     public async deleteUser(userId) {
@@ -72,33 +74,33 @@ export default class Bitbutter {
         return await this.getRequest(`users/${userId}/ledger`);
     }
 
-    // public async getUserBalances(userId) {
-    //     return await this.getRequest(`users/${userId}/balances`);
-    // }
+    public async getUserBalances(userId) {
+        return await this.getRequest(`users/${userId}/balances`);
+    }
 
-    // public async getUserConnectedExchangesBalances(userId) {
-    //     return await this.getRequest(`users/${userId}/connected-exchanges/balances`);
-    // }
+    public async getUserConnectedExchangesBalances(userId) {
+        return await this.getRequest(`users/${userId}/connected-exchanges/balances`);
+    }
 
-    // public async getUserConnectedAddressesBalances(userId) {
-    //     return await this.getRequest(`users/${userId}/connected-addresses/balances`);
-    // }
+    public async getUserConnectedAddressesBalances(userId) {
+        return await this.getRequest(`users/${userId}/connected-addresses/balances`);
+    }
 
-    // public async getConnectedExchangeBalances(connectedExchangeId) {
-    //     return await this.getRequest(`connected-exchanges/${connectedExchangeId}/balances`);
-    // }
+    public async getConnectedExchangeBalances(connectedExchangeId) {
+        return await this.getRequest(`connected-exchanges/${connectedExchangeId}/balances`);
+    }
 
-    // public async getConnectedAddressBalances(connectedAddressId) {
-    //     return await this.getRequest(`connected-addresses/${connectedAddressId}/balances`);
-    // }
+    public async getConnectedAddressBalances(connectedAddressId) {
+        return await this.getRequest(`connected-addresses/${connectedAddressId}/balances`);
+    }
 
-    // public async getUserConnectedExchangesLedger(userId, connectedExchangeId) {
-    //     return await this.getRequest(`users/${userId}/connected-exchanges/${connectedExchangeId}/ledger`);
-    // }
+    public async getUserConnectedExchangesLedger(userId, connectedExchangeId) {
+        return await this.getRequest(`users/${userId}/connected-exchanges/${connectedExchangeId}/ledger`);
+    }
 
-    // public async getUserConnectedAddressesLedger(userId, connectedAddressId) {
-    //     return await this.getRequest(`users/${userId}/connected-addresses/${connectedAddressId}/ledger`);
-    // }
+    public async getUserConnectedAddressesLedger(userId, connectedAddressId) {
+        return await this.getRequest(`users/${userId}/connected-addresses/${connectedAddressId}/ledger`);
+    }
 
     public async getConnectedAddressLedger(connectedAddressId) {
         return await this.getRequest(`connected-addresses/${connectedAddressId}/ledger`);
@@ -141,7 +143,7 @@ export default class Bitbutter {
     }
 
     private generateFullPath(requestPath): string {
-        return `${this.apiUrl}${requestPath}`;
+        return `${this.endpoint}${requestPath}`;
     }
 
     private generateRequestPath(path): string {
@@ -155,25 +157,26 @@ export default class Bitbutter {
         const headers = this.generateHeaders(name, requestPath, body);
         let response;
 
+        const options = {
+            headers,
+            json: true,
+        };
+
         switch (name) {
             case "GET":
-                response = await WebRequest.get(`${fullPath}`, { headers });
+                response = await WebRequest.get(`${fullPath}`, options);
                 break;
             case "POST":
-                const options = {
-                    headers,
-                    json: true,
-                };
                 response = await WebRequest.post(`${fullPath}`, options, body);
                 break;
             case "DELETE":
-                response = await WebRequest.delete(`${fullPath}`, { headers });
+                response = await WebRequest.delete(`${fullPath}`, options);
                 break;
             default:
                 throw new Error("Invalid name");
         }
 
-        return JSON.parse(response.content);
+        return response.content;
     }
 
     private async getRequest(path) {

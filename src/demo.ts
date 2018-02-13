@@ -8,18 +8,16 @@ import {
 } from "./types";
 
 const bitbutter = new Bitbutter({
-    apiKey: process.env.BB_API_KEY,
-    partnerId: process.env.BB_PARTNER_ID,
-    partnershipId: process.env.BB_PARTNERSHIP_ID,
-    secret: process.env.BB_SECRET,
+    apiKey: process.env.API_KEY,
+    endpoint: "http://localhost:3000",
+    partnerId: process.env.PARTNER_ID,
+    partnershipId: process.env.PARTNERSHIP_ID,
+    secret: process.env.SECRET,
 });
 
-function prettyPrint(label, obj) {
-    console.log(label, JSON.stringify(obj, null, 4));
-}
-
 async function main() {
-    // const exchanges = await bitbutter.getAllExchanges();
+    // const users = await bitbutter.getAllUsers();
+    // console.log(users);
 }
 
 main();

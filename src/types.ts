@@ -17,6 +17,7 @@ export interface InitialConfig {
     partnerId: string;
     partnershipId: string;
     secret: string;
+    endpoint: string;
 }
 
 export interface ConnectedExchangeRequestBody {
