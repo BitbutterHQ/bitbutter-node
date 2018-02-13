@@ -9,7 +9,7 @@ import {
 
 const bitbutter = new Bitbutter({
     apiKey: process.env.API_KEY,
-    endpoint: "http://localhost:3000",
+    endpoint: "https://development.bitbutter.com",
     partnerId: process.env.PARTNER_ID,
     partnershipId: process.env.PARTNERSHIP_ID,
     secret: process.env.SECRET,
