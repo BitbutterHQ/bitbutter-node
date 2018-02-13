@@ -26,7 +26,7 @@ export interface ConnectedExchangeRequestBody {
     user_id: string;
 }
 
-interface Credential {
+export interface Credential {
     api_key: string;
     password?: string;
     secret: string;
