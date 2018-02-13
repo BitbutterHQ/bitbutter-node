@@ -1,6 +1,6 @@
 {
-  "name": "bitbutter-node",
-  "version": "0.0.15",
+  "name": "bitbutter",
+  "version": "0.0.0",
   "description": "",
   "main": "dist/index.js",
   "scripts": {
