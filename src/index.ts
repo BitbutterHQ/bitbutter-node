@@ -18,8 +18,8 @@ export default class Bitbutter {
     private version = "1";
 
     constructor(config: InitialConfig) {
-        this.partnershipId = config.partnershipId;
-        this.partnerId = config.partnerId;
+        this.partnershipId = config.partnershipId || "";
+        this.partnerId = config.partnerId || "";
         this.apiKey = config.apiKey;
         this.secret = config.secret;
         this.endpoint = config.endpoint;
@@ -134,12 +134,20 @@ export default class Bitbutter {
             timestamp,
         });
 
-        return {
-            "BB-ACCESS-KEY": this.apiKey,
-            "BB-ACCESS-SIGN": signature,
-            "BB-PARTNER-ID": this.partnerId,
-            "BB-TIMESTAMP": timestamp,
-        };
+        if (this.partnerId !== "") {
+            return {
+                "BB-ACCESS-KEY": this.apiKey,
+                "BB-ACCESS-SIGN": signature,
+                "BB-PARTNER-ID": this.partnerId,
+                "BB-TIMESTAMP": timestamp,
+            };
+        } else {
+            return {
+                "BB-ACCESS-KEY": this.apiKey,
+                "BB-ACCESS-SIGN": signature,
+                "BB-TIMESTAMP": timestamp,
+            };
+        }
     }
 
     private generateFullPath(requestPath): string {
