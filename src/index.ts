@@ -12,6 +12,7 @@ import {
 export default class Bitbutter {
     public partnershipId = "";
     public partnerId = "";
+    public userId = "";
     public apiKey = "";
     public secret = "";
     public endpoint = "";
@@ -20,6 +21,7 @@ export default class Bitbutter {
     constructor(config: InitialConfig) {
         this.partnershipId = config.partnershipId || "";
         this.partnerId = config.partnerId || "";
+        this.userId = config.userId || "";
         this.apiKey = config.apiKey;
         this.secret = config.secret;
         this.endpoint = config.endpoint;
@@ -146,6 +148,7 @@ export default class Bitbutter {
                 "BB-ACCESS-KEY": this.apiKey,
                 "BB-ACCESS-SIGN": signature,
                 "BB-TIMESTAMP": timestamp,
+                "BB-USER-ID": this.userId,
             };
         }
     }

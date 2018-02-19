@@ -19,6 +19,7 @@ const client = new Bitbutter({
     apiKey: process.env.USER1_API_KEY,
     endpoint: process.env.ENDPOINT,
     secret: process.env.USER1_SECRET,
+    userId: process.env.USER1_ID,
 });
 
 async function main() {

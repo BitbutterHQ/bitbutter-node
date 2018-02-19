@@ -8,6 +8,7 @@ export interface RequestOptions {
 export interface RequestHeaders {
     "BB-ACCESS-KEY": string;
     "BB-PARTNER-ID"?: string;
+    "BB-USER-ID"?: string;
     "BB-ACCESS-SIGN": string;
     "BB-TIMESTAMP": number;
 }
@@ -17,6 +18,7 @@ export interface InitialConfig {
     partnerId?: string;
     partnershipId?: string;
     secret: string;
+    userId?: string;
     endpoint: string;
 }
 
