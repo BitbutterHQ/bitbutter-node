@@ -40,7 +40,7 @@ ENDPOINT=https://app-8697.on-aptible.com
 
 We can create a new user by calling the `createUser` method on our `client` instance (user client). First let's modify `demo.ts` with the following code.
 
-```
+```typescript
 import dotenv = require("dotenv");
 dotenv.config();
 
@@ -90,7 +90,7 @@ USER_SECRET=KzkSEWa7ESktAMnw2RrfxAdVfcyA3EX8Kdu58RSPxD2xFRASDGdF
 
 We can create a user client with the new information. This client will now be able to make requests to user protected routes such as connecting an exchange.
 
-```
+```typescript
 const userClient = new Bitbutter({
     apiKey: process.env.USER1_API_KEY,
     endpoint: process.env.ENDPOINT,
@@ -160,7 +160,7 @@ Expected response:
 
 Connected exchanges are created when a user provides the API Key and Secret (sometimes Password) from an exchange. A newly created user should have no connected exchanges. For this example we will be connecting a user’s Coinbase account.
 
-### Step 1: Connect a Coinbase account to our user
+### Provide Coinbase credentials
 
 To do this, we need to get the user’s API credentials from Coinbase and store it in the `.env` file.
 
@@ -169,7 +169,7 @@ COINBASE_API_KEY=YOUR_API_KEY
 COINBASE_SECRET=YOUR_SECRET
 ```
 
-### Step 2: Select Coinbase and create a create a ConnectedExchangeRequestBody
+### Select Coinbase and connect exchange
 
 To do this, we get all exchanges, select Coinbase from the returned list, and create a `ConnectedExchangeRequestBody` with the credentials in the `.env` file.
 
@@ -200,11 +200,12 @@ Connected exchanges are created when a user provides the API Key and Secret (som
 const connectedExchanges = await userClient.getUserConnectedExchanges(process.env.USER_ID);
 ```
 
-Expected response:
+### Expected response
 
 ```js
 {
-    connected_exchanges: [{
+    connected_exchanges: [
+        {
             exchange: [Object],
             id: '61cc39db-2803-4550-9f1c-dbde1d09b210'
         },
@@ -231,10 +232,13 @@ const coinbase = connectedExchanges.connected_exchanges[0];
 const ledger = await userClient.getConnectedExchangeLedger(coinbase.id);
 ```
 
-The ledger will return a list of all deposits, withdrawals, and trades from a connected exchange. The response should look similar to this:
+The ledger will return a list of all deposits, withdrawals, and trades from a connected exchange.
+
+### Expected response
 
 ```js
-[{
+[
+    {
         transaction_type: 'buy',
         connectable: {
             id: '61cc39db-2803-4550-9f1c-dbde1d09b210',
@@ -313,10 +317,13 @@ const coinbase = connectedExchanges.connected_exchanges[0];
 const balances = await client.getConnectedExchangeBalances(coinbase.id);
 ```
 
-Balances will return a list of balances by each asset (BTC, ETH, etc.) from all connected exchange. The response should look similar to this:
+Balances will return a list of balances by each asset (BTC, ETH, etc.) from all connected exchange.
+
+### Expected response
 
 ```js
-[{
+[
+    {
         asset: {
             id: '0b40e35b-a374-4bba-9734-aabfcfb380fc',
             name: 'Bitcoin',
@@ -369,10 +376,11 @@ We can get the ledger from all of the connected accounts (exchanges and/or addre
 const ledger = await client.getUserLedger(process.env.USER_ID);
 ```
 
-Example response:
+### Expected response
 
 ```js
-[{
+[
+    {
         transaction_type: 'exchange_deposit',
         connectable: {
             id: 'fab30ce0-2edd-4352-8a26-15f7e358bbec',
@@ -518,7 +526,7 @@ Returns all asset balances from connected exchanges and addresses.
 const balances = await client.getUserBalances(process.env.USER_ID);
 ```
 
-Expected response:
+### Expected response
 
 ```js
 [
@@ -594,7 +602,7 @@ To disconnect a user’s connected exchange.
   }
 ```
 
-Expected response:
+### Expected response
 
 ```js
 {
@@ -606,7 +614,8 @@ Expected response:
 }
 ```
 
-##
+
+## Next steps
 
 And that concludes this getting started guide for Bitbutter’s API using the Node.js client library! Now that we’ve covered the basics, you can find the complete API documentation at [https://docs.bitbutter.com/](https://docs.bitbutter.com/).
 
