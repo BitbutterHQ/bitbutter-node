@@ -14,12 +14,12 @@ export interface RequestHeaders {
 }
 
 export interface InitialConfig {
-    apiKey: string;
+    apiKey?: string;
     partnerId?: string;
     partnershipId?: string;
-    secret: string;
+    secret?: string;
     userId?: string;
-    endpoint: string;
+    endpoint?: string;
 }
 
 export interface ConnectedExchangeRequestBody {

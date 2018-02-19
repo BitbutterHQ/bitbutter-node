@@ -7,25 +7,29 @@ import {
     ConnectedExchangeRequestBody,
 } from "./types";
 
-const bitbutter = new Bitbutter({
-    apiKey: process.env.PARTNER_API_KEY,
+const publicClient = new Bitbutter({
     endpoint: process.env.ENDPOINT,
-    partnerId: process.env.PARTNER_ID,
     partnershipId: process.env.PARTNERSHIP_ID,
-    secret: process.env.PARTNER_SECRET,
 });
 
-const client = new Bitbutter({
-    apiKey: process.env.USER1_API_KEY,
-    endpoint: process.env.ENDPOINT,
-    secret: process.env.USER1_SECRET,
-    userId: process.env.USER1_ID,
-});
+// const userClient = new Bitbutter({
+//     apiKey: process.env.USER1_API_KEY,
+//     endpoint: process.env.ENDPOINT,
+//     secret: process.env.USER1_SECRET,
+//     userId: process.env.USER1_ID,
+// });
+
+// const partnerClient = new Bitbutter({
+//     apiKey: process.env.PARTNER_API_KEY,
+//     endpoint: "https://development.bitbutter.com",
+//     partnerId: process.env.PARTNER_ID,
+//     partnershipId: process.env.PARTNERSHIP_ID,
+//     secret: process.env.PARTNER_SECRET,
+// });
 
 async function main() {
-    const users = await bitbutter.getAllUsers();
-
-    console.log(users);
+    const newUser = await publicClient.createUser();
+    console.log(newUser);
 
     // const currentExchange = exchanges.exchanges.filter((e) => {
     //     return e.name === "Binance";
@@ -47,13 +51,6 @@ async function main() {
 
     // const balances = await client.getUserBalances(process.env.USER1_ID);
     // console.log(JSON.stringify(balances, null, 4));
-
-    // const connectedExchanges = await bitbutter.getUserConnectedExchanges(process.env.USER1_ID);
-
-    // for (const connectedExchange of connectedExchanges.connected_exchanges) {
-    //     const deleted = await bitbutter.disconnectExchange(connectedExchange.id);
-    //     console.log("deleted", deleted);
-    // }
 }
 
 main();

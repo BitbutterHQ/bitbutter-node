@@ -22,9 +22,9 @@ export default class Bitbutter {
         this.partnershipId = config.partnershipId || "";
         this.partnerId = config.partnerId || "";
         this.userId = config.userId || "";
-        this.apiKey = config.apiKey;
-        this.secret = config.secret;
-        this.endpoint = config.endpoint;
+        this.apiKey = config.apiKey || "";
+        this.secret = config.secret || "";
+        this.endpoint = config.endpoint || "";
     }
 
     public async getAllUsers() {
