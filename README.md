@@ -226,7 +226,7 @@ const connectedExchanges = await userClient.getUserConnectedExchanges(process.en
 Now let's look at the ledger for the user’s Coinbase account we connected.
 
 ``` typescript
-const exchanges = await bitbutter.getAllExchanges();
+const exchanges = await userClient.getAllExchanges();
 const connectedExchanges = await client.getUserConnectedExchanges(process.env.USER_ID);
 const coinbase = connectedExchanges.connected_exchanges[0];
 const ledger = await userClient.getConnectedExchangeLedger(coinbase.id);
