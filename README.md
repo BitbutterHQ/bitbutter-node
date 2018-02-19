@@ -60,7 +60,7 @@ main();
 Here we are creating a public client with the `ENDPOINT` and `PARTNERSHIP_ID` that we provided in the `.env` file. Let's go ahead and run this file with the following command:
 
 ```
-tsc && node/demo.js
+tsc && node dist/demo.js
 ```
 
 This command compiles our Typescript project into a JavaScript project and places it in the `dist` directory. Then we are using `node` to execute the generated `demo.js` file. The response should look like the following.
