@@ -21,7 +21,7 @@ const publicClient = new Bitbutter({
 
 // const partnerClient = new Bitbutter({
 //     apiKey: process.env.PARTNER_API_KEY,
-//     endpoint: "https://development.bitbutter.com",
+//     endpoint: process.env.ENDPOINT,
 //     partnerId: process.env.PARTNER_ID,
 //     partnershipId: process.env.PARTNERSHIP_ID,
 //     secret: process.env.PARTNER_SECRET,

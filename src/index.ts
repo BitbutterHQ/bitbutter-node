@@ -80,6 +80,10 @@ export default class Bitbutter {
         return await this.getRequest(`users/${userId}/balances`);
     }
 
+    public async getJobs() {
+        return await this.getRequest(`jobs`);
+    }
+
     public async getUserConnectedExchangesBalances(userId) {
         return await this.getRequest(`users/${userId}/connected-exchanges/balances`);
     }
