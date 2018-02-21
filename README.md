@@ -1,7 +1,7 @@
 
 # Bitbutter API: Getting Started Guide
 
-This getting started guide will walk you through connecting cryptocurrency exchanges and addresses using the Node.js client. The client interfaces with the Bitbutter by making requests along with correct headers for authentication. 
+This getting started guide will walk you through connecting cryptocurrency exchanges and addresses using the Node.js client. The client interfaces with the Bitbutter by making requests along with correct headers for authentication.
 
 This guide works through how we might use the Bitbutter API on any client whether that is a web client or a mobile client. The complete API reference documentation can be found at [https://docs.bitbutter.com/](https://docs.bitbutter.com/).
 
@@ -29,7 +29,7 @@ git clone https://github.com/BitbutterHQ/bitbutter-node.git
 
 ## Set environment variables
 
-To create a user to start connecting exchanges and addresses, we have to first create a `.env` file and provide information for `PARTNERSHIP_ID` and `ENDPOINT`. The `PARTNERSHIP_ID` will be provided by one of our team members via Slack. The value for `ENDPOINT` should be `https://app-8697.on-aptible.com`. 
+To create a user to start connecting exchanges and addresses, we have to first create a `.env` file and provide information for `PARTNERSHIP_ID` and `ENDPOINT`. The `PARTNERSHIP_ID` will be provided by one of our team members via Slack. The value for `ENDPOINT` should be `https://app-8697.on-aptible.com`.
 
 ```
 PARTNERSHIP_ID=ac358815-7be3-4a6e-9731-90df228e4401
@@ -43,6 +43,12 @@ We can create a new user by calling the `createUser` method on our `client` inst
 ```typescript
 import dotenv = require("dotenv");
 dotenv.config();
+
+import Bitbutter from "./index";
+import {
+    ConnectedAddressRequestBody,
+    ConnectedExchangeRequestBody,
+} from "./types";
 
 const publicClient = new Bitbutter({
     endpoint: process.env.ENDPOINT,
@@ -186,7 +192,7 @@ const body: ConnectedExchangeRequestBody = {
         secret: process.env.COINBASE_SECRET,
     },
     exchange_id: currentExchange.id,
-    user_id: currentUser.USER_ID,
+    user_id: process.env.USER_ID,
 };
 
 await userClient.connectExchange(body);
@@ -227,7 +233,7 @@ Now let's look at the ledger for the user’s Coinbase account we connected.
 
 ``` typescript
 const exchanges = await userClient.getAllExchanges();
-const connectedExchanges = await client.getUserConnectedExchanges(process.env.USER_ID);
+const connectedExchanges = await userClient.getUserConnectedExchanges(process.env.USER_ID);
 const coinbase = connectedExchanges.connected_exchanges[0];
 const ledger = await userClient.getConnectedExchangeLedger(coinbase.id);
 ```
@@ -312,9 +318,9 @@ The ledger will return a list of all deposits, withdrawals, and trades from a co
 ## Get connected exchange balance
 
 ```typescript
-const connectedExchanges = await client.getUserConnectedExchanges(process.env.USER_ID);
+const connectedExchanges = await userClient.getUserConnectedExchanges(process.env.USER_ID);
 const coinbase = connectedExchanges.connected_exchanges[0];
-const balances = await client.getConnectedExchangeBalances(coinbase.id);
+const balances = await userClient.getConnectedExchangeBalances(coinbase.id);
 ```
 
 Balances will return a list of balances by each asset (BTC, ETH, etc.) from all connected exchange.
@@ -373,7 +379,7 @@ Balances will return a list of balances by each asset (BTC, ETH, etc.) from all 
 We can get the ledger from all of the connected accounts (exchanges and/or addresses) from one endpoint.
 
 ```typescript
-const ledger = await client.getUserLedger(process.env.USER_ID);
+const ledger = await userClient.getUserLedger(process.env.USER_ID);
 ```
 
 ### Expected response
@@ -523,7 +529,7 @@ const ledger = await client.getUserLedger(process.env.USER_ID);
 Returns all asset balances from connected exchanges and addresses.
 
 ```typescript
-const balances = await client.getUserBalances(process.env.USER_ID);
+const balances = await userClient.getUserBalances(process.env.USER_ID);
 ```
 
 ### Expected response
@@ -597,7 +603,7 @@ To disconnect a user’s connected exchange.
   const connectedExchanges = await userClient.getUserConnectedExchanges(process.env.USER_ID);
 
   for (const connectedExchange of connectedExchanges.connected_exchanges) {
-      const deleted = await client.disconnectExchange(connectedExchange.id);
+      const deleted = await userClient.disconnectExchange(connectedExchange.id);
       console.log("deleted", deleted);
   }
 ```
