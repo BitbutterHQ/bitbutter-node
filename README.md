@@ -7,9 +7,9 @@ This guide works through how we might use the Bitbutter API on any client whethe
 
 ## Available Exchanges
 
-<img width="150" src="https://docs.bitbutter.com/images/binance.png">
+<img width="150" style="display:inline-block;margin:0" src="https://docs.bitbutter.com/images/binance.png">
 
-<img width="120" src="https://docs.bitbutter.com/images/bittrex.png">
+<img width="120" style="display:inline-block;" src="https://docs.bitbutter.com/images/bittrex.png">
 
 <img width="120" src="https://www.coinbase.com/assets/press/coinbase-logos/coinbase.png">
 
@@ -603,7 +603,7 @@ To disconnect a user’s connected exchange.
   const connectedExchanges = await userClient.getUserConnectedExchanges(process.env.USER_ID);
 
   for (const connectedExchange of connectedExchanges.connected_exchanges) {
-      const deleted = await userClient.disconnectExchange(connectedExchange.id);
+      const deleted = await partnerClient.disconnectExchange(connectedExchange.id);
       console.log("deleted", deleted);
   }
 ```

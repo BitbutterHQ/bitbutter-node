@@ -12,12 +12,12 @@ const publicClient = new Bitbutter({
     partnershipId: process.env.PARTNERSHIP_ID,
 });
 
-// const userClient = new Bitbutter({
-//     apiKey: process.env.USER1_API_KEY,
-//     endpoint: process.env.ENDPOINT,
-//     secret: process.env.USER1_SECRET,
-//     userId: process.env.USER1_ID,
-// });
+const userClient = new Bitbutter({
+    apiKey: process.env.USER_API_KEY,
+    endpoint: process.env.ENDPOINT,
+    secret: process.env.USER_SECRET,
+    userId: process.env.USER_ID,
+});
 // const partnerClient = new Bitbutter({
 //     apiKey: process.env.PARTNER_API_KEY,
 //     endpoint: process.env.ENDPOINT,
@@ -26,25 +26,50 @@ const publicClient = new Bitbutter({
 //     secret: process.env.PARTNER_SECRET,
 // });
 async function main() {
-    const newUser = await publicClient.createUser();
-    console.log(newUser);
 
+    // const newUser = await publicClient.createUser();
+    // console.log("new USER", newUser);
+    // const users = await publicClient.getAllUsers();
+    // console.log(users);
+    // const balances = await userClient.getUserBalances(process.env.USER_ID);
+    // console.log(balances);
+    // const ledger = await userClient.getUserLedger(process.env.USER_ID);
+    // console.log(ledger);
+
+    // const exchanges = await userClient.getAllExchanges();
     // const currentExchange = exchanges.exchanges.filter((e) => {
-    //     return e.name === "Binance";
+    //     return e.name === "Coinbase";
     // })[0];
-    // const body: ConnectedExchangeRequestBody = {
-    //     credentials: {
-    //         api_key: process.env.BINANCE_API_KEY,
-    //         secret: process.env.BINANCE_SECRET,
-    //     },
-    //     exchange_id: currentExchange.id,
-    //     user_id: process.env.USER1_ID,
-    // };
-    // await client.connectExchange(body);
-    // const ledger = await client.getUserLedger(process.env.USER1_ID);
-    // console.log(JSON.stringify(ledger, null, 4));
-    // const balances = await client.getUserBalances(process.env.USER1_ID);
-    // console.log(JSON.stringify(balances, null, 4));
+    //
+    console.log("exchanges", exchanges);
+    console.log("currentExchange", currentExchange);
+
+    const body: ConnectedExchangeRequestBody = {
+        credentials: {
+            api_key: process.env.COINBASE1_API_KEY,
+            secret: process.env.COINBASE1_SECRET,
+        },
+        exchange_id: currentExchange.id,
+        user_id: process.env.USER_ID,
+    };
+    //
+    await userClient.connectExchange(body);
+    //
+    const connectedExchanges = await userClient.getUserConnectedExchanges(process.env.USER_ID);
+    console.log("connected exchanges", connectedExchanges);
+
+    //LEDGER
+    const exchanges = await userClient.getAllExchanges();
+    const connectedExchanges = await userClient.getUserConnectedExchanges(process.env.USER_ID);
+    const coinbase = connectedExchanges.connected_exchanges[3];
+    const ledger = await userClient.getConnectedExchangeLedger(coinbase.id);
+    console.log(ledger);
+
+    // const ledger = await userClient.getUserLedger(process.env.USER_ID);
+    // console.log(ledger);
+
+    // const balances = await userClient.getUserBalances(process.env.USER3_ID);
+    // console.log(balances);
 }
 
 main();

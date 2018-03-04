@@ -133,12 +133,16 @@ export default class Bitbutter {
     private generateHeaders(method, requestPath, body): RequestHeaders {
         const timestamp = +new Date();
 
+        console.log("BODY", body);
+
         const signature = this.generateSignature({
             body,
             method,
             requestPath,
             timestamp,
         });
+
+        console.log("SIGNATURE", signature);
 
         if (this.partnerId !== "") {
             return {
@@ -176,6 +180,9 @@ export default class Bitbutter {
             headers,
             json: true,
         };
+
+        console.log('OPTIONS', options);
+        console.log("fullPAth",fullPath)
 
         switch (name) {
             case "GET":
