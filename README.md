@@ -73,14 +73,14 @@ This command compiles our Typescript project into a JavaScript project and place
 
 ```js
 {
-  user: {
-    created_at: '2018-02-19T02:54:36.831Z',
-    credentials: {
-        api_key: '1MvPzYgpf82MnZk31uFt4vCg9FF8ixgUBC',
-        secret: 'KzkSEWa7ESktAMnw2RrfxAdVfcyA3EX8Kdu58RSPxD2xFRASDGdF'
-    },
-    id: 'b4f1599c-2912-42f4-b03a-452aafa5a4f0'
-  }
+    user: {
+        created_at: '2018-02-19T02:54:36.831Z',
+        credentials: {
+            api_key: '1MvPzYgpf82MnZk31uFt4vCg9FF8ixgUBC',
+            secret: 'KzkSEWa7ESktAMnw2RrfxAdVfcyA3EX8Kdu58RSPxD2xFRASDGdF'
+        },
+        id: 'b4f1599c-2912-42f4-b03a-452aafa5a4f0'
+    }
 }
 ```
 
@@ -107,10 +107,12 @@ const userClient = new Bitbutter({
 
 ## Get all exchanges
 
-Now that we have the credentials for Coinbase, we can start connecting it. First let's see what exchanges are available for us to connect.
+Now that we have the credentials for Coinbase, we can start connecting it. First let's see what exchanges are available for us to connect. Replace function main() in the demo file with this new function main().
 
 ```typescript
-const exchanges = await userClient.getAllExchanges();
+async function main() {
+    const exchanges = await userClient.getAllExchanges();
+}
 ```
 
 Expected response:
@@ -177,33 +179,37 @@ COINBASE_SECRET=YOUR_SECRET
 
 ### Select Coinbase and connect exchange
 
-To do this, we get all exchanges, select Coinbase from the returned list, and create a `ConnectedExchangeRequestBody` with the credentials in the `.env` file.
+To do this, we get all exchanges, select Coinbase from the returned list, and create a `ConnectedExchangeRequestBody` with the credentials in the `.env` file. Replace function main() in the demo file with this new function main().
 
 ```typescript
-const exchanges = await userClient.getAllExchanges();
+async function main() {
+    const exchanges = await userClient.getAllExchanges();
 
-const currentExchange = exchanges.exchanges.filter((e) => {
-    return e.name === "Coinbase";
-})[0];
+    const currentExchange = exchanges.exchanges.filter((e) => {
+        return e.name === "Coinbase";
+    })[0];
 
-const body: ConnectedExchangeRequestBody = {
-    credentials: {
-        api_key: process.env.COINBASE_API_KEY,
-        secret: process.env.COINBASE_SECRET,
-    },
-    exchange_id: currentExchange.id,
-    user_id: process.env.USER_ID,
-};
+    const body: ConnectedExchangeRequestBody = {
+        credentials: {
+            api_key: process.env.COINBASE_API_KEY,
+            secret: process.env.COINBASE_SECRET,
+        },
+        exchange_id: currentExchange.id,
+        user_id: process.env.USER_ID,
+    };
 
-await userClient.connectExchange(body);
+    await userClient.connectExchange(body);
+}
 ```
 
 ## Get connected exchanges
 
-Connected exchanges are created when a user provides the API Key and Secret (sometimes Password) from an exchange.
+Connected exchanges are created when a user provides the API Key and Secret (sometimes Password) from an exchange. Replace main() function with below.
 
 ``` typescript
-const connectedExchanges = await userClient.getUserConnectedExchanges(process.env.USER_ID);
+async function main() {
+    const connectedExchanges = await userClient.getUserConnectedExchanges(process.env.USER_ID);
+}
 ```
 
 ### Expected response
@@ -229,13 +235,15 @@ const connectedExchanges = await userClient.getUserConnectedExchanges(process.en
 
 ## Get connected exchange ledger
 
-Now let's look at the ledger for the user’s Coinbase account we connected.
+Now let's look at the ledger for the user’s Coinbase account we connected. Replace main() function with below.
 
 ``` typescript
-const exchanges = await userClient.getAllExchanges();
-const connectedExchanges = await userClient.getUserConnectedExchanges(process.env.USER_ID);
-const coinbase = connectedExchanges.connected_exchanges[0];
-const ledger = await userClient.getConnectedExchangeLedger(coinbase.id);
+async function main() {
+    const exchanges = await userClient.getAllExchanges();
+    const connectedExchanges = await userClient.getUserConnectedExchanges(process.env.USER_ID);
+    const coinbase = connectedExchanges.connected_exchanges[0];
+    const ledger = await userClient.getConnectedExchangeLedger(coinbase.id);
+}
 ```
 
 The ledger will return a list of all deposits, withdrawals, and trades from a connected exchange.
@@ -317,10 +325,14 @@ The ledger will return a list of all deposits, withdrawals, and trades from a co
 
 ## Get connected exchange balance
 
+Replace main() function with below.
+
 ```typescript
-const connectedExchanges = await userClient.getUserConnectedExchanges(process.env.USER_ID);
-const coinbase = connectedExchanges.connected_exchanges[0];
-const balances = await userClient.getConnectedExchangeBalances(coinbase.id);
+async function main() {
+    const connectedExchanges = await userClient.getUserConnectedExchanges(process.env.USER_ID);
+    const coinbase = connectedExchanges.connected_exchanges[0];
+    const balances = await userClient.getConnectedExchangeBalances(coinbase.id);
+}
 ```
 
 Balances will return a list of balances by each asset (BTC, ETH, etc.) from all connected exchange.
@@ -376,10 +388,12 @@ Balances will return a list of balances by each asset (BTC, ETH, etc.) from all 
 
 ## Get user ledger
 
-We can get the ledger from all of the connected accounts (exchanges and/or addresses) from one endpoint.
+We can get the ledger from all of the connected accounts (exchanges and/or addresses) from one endpoint. Replace main() function with below.
 
 ```typescript
-const ledger = await userClient.getUserLedger(process.env.USER_ID);
+async function main() {
+    const ledger = await userClient.getUserLedger(process.env.USER_ID);
+}
 ```
 
 ### Expected response
@@ -526,10 +540,12 @@ const ledger = await userClient.getUserLedger(process.env.USER_ID);
 
 ## Get user balance
 
-Returns all asset balances from connected exchanges and addresses.
+Returns all asset balances from connected exchanges and addresses. Replace main() function with below.
 
 ```typescript
-const balances = await userClient.getUserBalances(process.env.USER_ID);
+async function main() {
+    const balances = await userClient.getUserBalances(process.env.USER_ID);
+}
 ```
 
 ### Expected response
@@ -597,15 +613,17 @@ const balances = await userClient.getUserBalances(process.env.USER_ID);
 
 ## Disconnect connected exchanges
 
-To disconnect a user’s connected exchange.
+To disconnect a user’s connected exchange. Replace main() function with below.
 
 ```typescript
-  const connectedExchanges = await userClient.getUserConnectedExchanges(process.env.USER_ID);
+async function main() {
+    const connectedExchanges = await userClient.getUserConnectedExchanges(process.env.USER_ID);
 
-  for (const connectedExchange of connectedExchanges.connected_exchanges) {
-      const deleted = await partnerClient.disconnectExchange(connectedExchange.id);
-      console.log("deleted", deleted);
-  }
+    for (const connectedExchange of connectedExchanges.connected_exchanges) {
+        const deleted = await userClient.disconnectExchange(connectedExchange.id);
+        console.log("deleted", deleted);
+    }
+}
 ```
 
 ### Expected response
@@ -620,6 +638,241 @@ To disconnect a user’s connected exchange.
 }
 ```
 
+## Get all assets
+
+Now let's connect a blockchain wallet address. First let's see what assets are available for us to connect. Replace function main() with below.
+
+```typescript
+async function main() {
+    const assets = await userClient.getAllAssets();
+}
+```
+
+Expected response:
+
+``` js
+{
+    "assets": [
+        {
+            "id": "159189c3-2f6c-4e98-9784-6c8fbf36c163",
+            "name": "Bitcoin",
+            "symbol": "BTC"
+        },
+        {
+            "id": "ca015b25-55e0-482e-8e75-2761146736f2",
+            "name": "Ethereum",
+            "symbol": "ETH"
+        },
+        {
+            "id": "bdf61b56-de76-4c80-90bd-061e80194664",
+            "name": "Ripple",
+            "symbol": "XRP"
+        },
+        {
+            "id": "10761d31-97f0-4f87-ba36-54043ee84bfa",
+            "name": "Bitcoin Cash",
+            "symbol": "BCH"
+        },
+        {
+            "id": "f27a1f9d-ccc9-4b7f-90d9-9aab56a02cff",
+            "name": "Cardano",
+            "symbol": "ADA"
+        }
+        ...
+    ]
+}
+```
+
+## Connect address
+
+Connected addresses are created when a user provides their blockchain address where funds are stored (ie: bitcoin or ether). A newly created user should have no connected addresses. For this example we will be connecting a user’s Bitcoin address.
+
+### Provide Coinbase credentials
+
+To do this, we need to get the user’s bitcoin address and store it in the `.env` file.
+
+```
+BITCOIN_ADDRESS=19bpEWN7zHBLonBiQjRc92mSKocmAcx4y2
+```
+
+### Select Bitcoin and connect address
+
+To do this, we get all assets, select Bitcoin from the returned list, and create a `ConnectedAddressRequestBody` with the credentials in the `.env` file. Replace function main() in the demo file with this new function main().
+
+```typescript
+async function main() {
+    const assets = await userClient.getAllAssets();
+    const currentAsset = assets.assets.filter((e) => {
+        return e.name === "Bitcoin";
+    })[0];
+
+    const body: ConnectedAddressRequestBody = {
+        asset_id: currentAsset.id,
+        address: process.env.BITCOIN_ADDRESS,
+        user_id:process.env.USER_ID
+    };
+
+    await userClient.connectAddress(body);
+}
+```
+
+## Get connected addresses
+
+To see the connected addresses associated with a user, Replace main() function with below.
+
+``` typescript
+async function main() {
+    const connectedAddresses = await userClient.getUserConnectedAddresses(process.env.USER_ID);
+}
+```
+### Expected response
+
+```js
+{
+    "connected_addresses": [
+        {
+            "address": {
+                "address": "19bpEWN7zHBLonBiQjRc92mSKocmAcx4y2",
+                "asset": {
+                    "id": "159189c3-2f6c-4e98-9784-6c8fbf36c163",
+                    "name": "Bitcoin",
+                    "symbol": "BTC"
+                }
+            },
+            "id": "bf3ad218-9775-4949-892d-ebb8e4f1b7cc"
+        }
+    ]
+}
+```
+
+## Get connected address ledger
+
+Now let's look at the ledger for the user’s bitcoin address we have connected. Replace main() function with below.
+
+``` typescript
+async function main() {
+    const assets = await userClient.getAllAssets();
+    const connectedAddresses = await userClient.getUserConnectedAddresses(process.env.USER_ID);
+    const bitcoin = connectedAddresses.connected_addresses[0];
+    const ledger = await userClient.getConnectedAddressLedger(bitcoin.id);
+}
+```
+
+The ledger will return a list of all deposits and withdrawals from connected address.
+
+### Expected response
+
+```js
+[
+    {
+        "transaction_type": "address_deposit",
+        "connectable": {
+            "id": "fd36c28f-f9d4-421d-9339-1062cca358cd",
+            "name": "Bitcoin",
+            "type": "Address"
+        },
+        "inputs": [
+            {
+                "address": "19bpEWN7zHBLonBiQjRc92mSKocmAcx4y2",
+                "size": "0.28553130"
+            }
+        ],
+        "size": {
+            "name": "Bitcoin",
+            "size": "0.00000224",
+            "symbol": "BTC"
+        },
+        "outputs": [
+            {
+                "address": "38nCVfkwyKLXMz4F312dezip787nshNvxd",
+                "size": "0.20000000"
+            },
+            {
+                "address": "1j5a6wvGRwrghB6vxLZo8LTrAampVMwvx",
+                "size": "0.08422129"
+            }
+        ],
+        "fee": {
+            "name": "Bitcoin",
+            "size": "0.00131001",
+            "symbol": "BTC"
+        },
+        "tx_id": "49f03ed024cd2afdeaca76c56ee85251f7e9787012e6ce4caff42161e020a803",
+        "time": "2018-01-05T08:09:15.000Z",
+        "details": {
+            "subtitle": "To 2 Outputs",
+            "title": "Sent Bitcoin"
+        }
+    }
+]
+```
+
+## Get connected address balance
+
+Now we will look at the balances for our connected addresses. In this case our bitcoin balance. Replace main() function with below.
+
+```typescript
+async function main() {
+    const connectedAddresses = await userClient.getUserConnectedAddresses(process.env.USER_ID);
+    const bitcoin = connectedAddresses.connected_addresses[0];
+    const balances = await userClient.getConnectedAddressBalances(bitcoin.id);
+    console.log(balances);
+}
+```
+
+Balances will return a list of balances by each asset (BTC, ETH, etc.) from all connected addresses.
+
+### Expected response
+
+```js
+[
+    {
+        "asset": {
+            "id": "159189c3-2f6c-4e98-9784-6c8fbf36c163",
+            "name": "Bitcoin",
+            "size": "0.00000000",
+            "symbol": "BTC"
+        },
+        "connectable": {
+            "id": "fd36c28f-f9d4-421d-9339-1062cca358cd",
+            "name": "Bitcoin",
+            "type": "Address"
+        },
+        "name": "Bitcoin address"
+    }
+]
+```
+
+## Disconnect connected addresses
+
+To disconnect a user’s connected address. Replace main() function with below.
+
+```typescript
+async function main() {
+    const connectedAddresses = await userClient.getUserConnectedAddresses(process.env.USER_ID);
+
+    for (const connectedAddress of connectedAddresses.connected_addresses) {
+        const deleted = await userClient.disconnectAddress(connectedAddress.id);
+        console.log("deleted", deleted);
+    }
+}
+```
+
+### Expected response
+
+```js
+{
+    "address": {
+        "address": "19bpEWN7zHBLonBiQjRc92mSKocmAcx4y2",
+        "asset": {
+            "id": "159189c3-2f6c-4e98-9784-6c8fbf36c163",
+            "name": "Bitcoin",
+            "symbol": "BTC"
+        }
+    },
+    "id": "fd36c28f-f9d4-421d-9339-1062cca358cd"
+}
+```
 
 ## Next steps
 

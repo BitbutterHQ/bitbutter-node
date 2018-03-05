@@ -12,12 +12,15 @@ const publicClient = new Bitbutter({
     partnershipId: process.env.PARTNERSHIP_ID,
 });
 
+// user client to make requests to user protected routes
 const userClient = new Bitbutter({
-    apiKey: process.env.USER_API_KEY,
+    apiKey: process.env.USER2_API_KEY,
     endpoint: process.env.ENDPOINT,
-    secret: process.env.USER_SECRET,
-    userId: process.env.USER_ID,
+    secret: process.env.USER2_SECRET,
+    userId: process.env.USER2_ID,
 });
+
+// partner client to make requests to user protected routes
 // const partnerClient = new Bitbutter({
 //     apiKey: process.env.PARTNER_API_KEY,
 //     endpoint: process.env.ENDPOINT,
@@ -25,51 +28,11 @@ const userClient = new Bitbutter({
 //     partnershipId: process.env.PARTNERSHIP_ID,
 //     secret: process.env.PARTNER_SECRET,
 // });
+
+// replace function main() with the ones in the README directions
 async function main() {
-
-    // const newUser = await publicClient.createUser();
-    // console.log("new USER", newUser);
-    // const users = await publicClient.getAllUsers();
-    // console.log(users);
-    // const balances = await userClient.getUserBalances(process.env.USER_ID);
-    // console.log(balances);
-    // const ledger = await userClient.getUserLedger(process.env.USER_ID);
-    // console.log(ledger);
-
-    // const exchanges = await userClient.getAllExchanges();
-    // const currentExchange = exchanges.exchanges.filter((e) => {
-    //     return e.name === "Coinbase";
-    // })[0];
-    //
-    console.log("exchanges", exchanges);
-    console.log("currentExchange", currentExchange);
-
-    const body: ConnectedExchangeRequestBody = {
-        credentials: {
-            api_key: process.env.COINBASE1_API_KEY,
-            secret: process.env.COINBASE1_SECRET,
-        },
-        exchange_id: currentExchange.id,
-        user_id: process.env.USER_ID,
-    };
-    //
-    await userClient.connectExchange(body);
-    //
-    const connectedExchanges = await userClient.getUserConnectedExchanges(process.env.USER_ID);
-    console.log("connected exchanges", connectedExchanges);
-
-    //LEDGER
-    const exchanges = await userClient.getAllExchanges();
-    const connectedExchanges = await userClient.getUserConnectedExchanges(process.env.USER_ID);
-    const coinbase = connectedExchanges.connected_exchanges[3];
-    const ledger = await userClient.getConnectedExchangeLedger(coinbase.id);
-    console.log(ledger);
-
-    // const ledger = await userClient.getUserLedger(process.env.USER_ID);
-    // console.log(ledger);
-
-    // const balances = await userClient.getUserBalances(process.env.USER3_ID);
-    // console.log(balances);
+    const newUser = await publicClient.createUser();
+    console.log(newUser);
 }
 
 main();
