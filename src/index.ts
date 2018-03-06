@@ -122,7 +122,7 @@ export default class Bitbutter {
         const body = options.body;
         const timestamp = options.timestamp;
 
-        const prehash = timestamp + method + requestPath + body;
+        const prehash = timestamp + method + requestPath + JSON.stringify(body);
         const key = new Buffer(this.secret, "base64");
         const hmac = crypto.createHmac("sha256", key);
         const signature = hmac.update(prehash).digest("base64");
