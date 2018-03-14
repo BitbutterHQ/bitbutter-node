@@ -7,9 +7,9 @@ This guide works through how we might use the Bitbutter API on any client whethe
 
 ## Available Exchanges
 
-<img width="150" style="display:inline-block;margin:0" src="https://docs.bitbutter.com/images/binance.png">
+<img width="150" style="display:inline-block;margin:0" src="img/binance.png">
 
-<img width="120" style="display:inline-block;" src="https://docs.bitbutter.com/images/bittrex.png">
+<img width="120" style="display:inline-block;" src="img/bittrex.png">
 
 <img width="120" src="https://www.coinbase.com/assets/press/coinbase-logos/coinbase.png">
 
@@ -17,9 +17,9 @@ This guide works through how we might use the Bitbutter API on any client whethe
 
 <img height="38" src="https://i.imgur.com/P3SnIHh.png">
 
-<img width="120" src="https://docs.bitbutter.com/images/poloniex.png">
+<img width="120" src="img/poloniex.png">
 
-<img width="120" src="https://docs.bitbutter.com/images/kraken.png">
+<img width="120" src="img/kraken.png">
 
 ## Setup
 
