@@ -120,6 +120,9 @@ export default class Bitbutter {
             if (pagination.order) {
                 requestUrl += `&order=` + pagination.order;
             }
+            if (pagination.page) {
+                requestUrl += `&page=` + pagination.page;
+            }
         }
 
         return requestUrl;

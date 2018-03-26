@@ -36,6 +36,7 @@ async function main() {
         before: +new Date("2018-03-01T13:32:54.000Z"),
         limit: 3,
         order: "asc",
+        page: 1,
     });
 
     console.log(ledger);
