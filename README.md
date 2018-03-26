@@ -13,8 +13,6 @@ This guide works through how we might use the Bitbutter API on any client whethe
 
 <img width="120" src="https://www.coinbase.com/assets/press/coinbase-logos/coinbase.png">
 
-## Coming Soon
-
 <img height="38" src="https://i.imgur.com/P3SnIHh.png">
 
 <img width="120" src="img/poloniex.png">
