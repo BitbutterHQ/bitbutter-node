@@ -14,10 +14,10 @@ const publicClient = new Bitbutter({
 
 // user client to make requests to user protected routes
 const userClient = new Bitbutter({
-    apiKey: process.env.USER2_API_KEY,
+    apiKey: process.env.USER_API_KEY,
     endpoint: process.env.ENDPOINT,
-    secret: process.env.USER2_SECRET,
-    userId: process.env.USER2_ID,
+    secret: process.env.USER_SECRET,
+    userId: process.env.USER_ID,
 });
 
 // partner client to make requests to user protected routes
@@ -31,8 +31,8 @@ const userClient = new Bitbutter({
 
 // replace function main() with the ones in the README directions
 async function main() {
-    const newUser = await publicClient.createUser();
-    console.log(newUser);
+    const trades = await userClient.getConnectedExchangeTransfers(process.env.CONNECTED_EXCHANGE_ID);
+    console.log(trades);
 }
 
 main();

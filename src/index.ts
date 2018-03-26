@@ -100,20 +100,20 @@ export default class Bitbutter {
         return await this.getRequest(`connected-addresses/${connectedAddressId}/balances`);
     }
 
-    public async getUserConnectedExchangesLedger(userId, connectedExchangeId) {
-        return await this.getRequest(`users/${userId}/connected-exchanges/${connectedExchangeId}/ledger`);
-    }
-
-    public async getUserConnectedAddressesLedger(userId, connectedAddressId) {
-        return await this.getRequest(`users/${userId}/connected-addresses/${connectedAddressId}/ledger`);
-    }
-
     public async getConnectedAddressLedger(connectedAddressId) {
         return await this.getRequest(`connected-addresses/${connectedAddressId}/ledger`);
     }
 
     public async getConnectedExchangeLedger(connectedExchangeId) {
         return await this.getRequest(`connected-exchanges/${connectedExchangeId}/ledger`);
+    }
+
+    public async getConnectedExchangeTrades(connectedExchangeId) {
+        return await this.getRequest(`connected-exchanges/${connectedExchangeId}/trades`);
+    }
+
+    public async getConnectedExchangeTransfers(connectedExchangeId) {
+        return await this.getRequest(`connected-exchanges/${connectedExchangeId}/transfers`);
     }
 
     private generateSignature(options: RequestOptions): string {
