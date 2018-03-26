@@ -31,8 +31,14 @@ const userClient = new Bitbutter({
 
 // replace function main() with the ones in the README directions
 async function main() {
-    const trades = await userClient.getConnectedExchangeTransfers(process.env.CONNECTED_EXCHANGE_ID);
-    console.log(trades);
+    const ledger = await userClient.getConnectedExchangeLedger(process.env.CONNECTED_EXCHANGE_ID, {
+        after: +new Date("2018-02-01T13:32:54.000Z"),
+        before: +new Date("2018-03-01T13:32:54.000Z"),
+        limit: 3,
+        order: "asc",
+    });
+
+    console.log(ledger);
 }
 
 main();

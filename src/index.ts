@@ -72,8 +72,10 @@ export default class Bitbutter {
         return await this.deleteRequest(`connected-addresses/${connectedAddressId}`);
     }
 
-    public async getUserLedger(userId) {
-        return await this.getRequest(`users/${userId}/ledger`);
+    public async getUserLedger(userId, pagination = null) {
+        let requestUrl = `users/${userId}/ledger`;
+        requestUrl = this.addPaginationQueryParams(requestUrl, pagination);
+        return await this.getRequest(requestUrl);
     }
 
     public async getUserBalances(userId) {
@@ -104,16 +106,41 @@ export default class Bitbutter {
         return await this.getRequest(`connected-addresses/${connectedAddressId}/ledger`);
     }
 
-    public async getConnectedExchangeLedger(connectedExchangeId) {
-        return await this.getRequest(`connected-exchanges/${connectedExchangeId}/ledger`);
+    public addPaginationQueryParams(url, pagination) {
+        let requestUrl = url;
+
+        if (pagination) {
+            requestUrl += `limit=` + pagination.limit || 100;
+            if (pagination.before) {
+                requestUrl += `&before=` + pagination.before;
+            }
+            if (pagination.after) {
+                requestUrl += `&after=` + pagination.after;
+            }
+            if (pagination.order) {
+                requestUrl += `&order=` + pagination.order;
+            }
+        }
+
+        return requestUrl;
     }
 
-    public async getConnectedExchangeTrades(connectedExchangeId) {
-        return await this.getRequest(`connected-exchanges/${connectedExchangeId}/trades`);
+    public async getConnectedExchangeLedger(connectedExchangeId, pagination = null) {
+        let requestUrl = `connected-exchanges/${connectedExchangeId}/ledger?`;
+        requestUrl = this.addPaginationQueryParams(requestUrl, pagination);
+        return await this.getRequest(requestUrl);
     }
 
-    public async getConnectedExchangeTransfers(connectedExchangeId) {
-        return await this.getRequest(`connected-exchanges/${connectedExchangeId}/transfers`);
+    public async getConnectedExchangeTrades(connectedExchangeId, pagination = null) {
+        let requestUrl = `connected-exchanges/${connectedExchangeId}/trades?`;
+        requestUrl = this.addPaginationQueryParams(requestUrl, pagination);
+        return await this.getRequest(requestUrl);
+    }
+
+    public async getConnectedExchangeTransfers(connectedExchangeId, pagination = null) {
+        let requestUrl = `connected-exchanges/${connectedExchangeId}/transfers?`;
+        requestUrl = this.addPaginationQueryParams(requestUrl, pagination);
+        return await this.getRequest(requestUrl);
     }
 
     private generateSignature(options: RequestOptions): string {
