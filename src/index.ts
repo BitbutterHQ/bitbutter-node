@@ -146,6 +146,10 @@ export default class Bitbutter {
         return await this.getRequest(requestUrl);
     }
 
+    public async syncConnectedExchange(connectedExchangeId) {
+        return await this.getRequest(`connected-exchanges/${connectedExchangeId}/sync`);
+    }
+
     private generateSignature(options: RequestOptions): string {
         const method = options.method;
         const requestPath = options.requestPath;
