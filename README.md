@@ -27,30 +27,35 @@ git clone https://github.com/BitbutterHQ/bitbutter-node.git
 
 ## Set environment variables
 
-To create a user to start connecting exchanges and addresses, we have to first create a `.env` file and provide information for `PARTNERSHIP_ID` and `ENDPOINT`. The `PARTNERSHIP_ID` will be provided by one of our team members via Slack. The value for `ENDPOINT` should be `https://app-8697.on-aptible.com`.
+To create a user to start connecting exchanges and addresses, we have to first create a `.env` file and provide information for to create our clients. Our `.env` should look something like the following.
 
 ```
 PARTNERSHIP_ID=ac358815-7be3-4a6e-9731-90df228e4401
+PARTNER_ID=23fe7fe8-3948-448e-9ad2-5af68ca360be
+PARTNER_API_KEY=1CXv54KMQRYcFya1jPXdGCBknVt2PCVxDz
+PARTNER_SECRET=L2NhMp4WMUsPYwfog69y44TY3yGVSMQiaSs8uZ2EUvvdWsuVGhme
 ENDPOINT=https://app-8697.on-aptible.com
 ```
 
 ## Create user
 
-We can create a new user by calling the `createUser` method on our `client` instance (user client). First let's modify `demo.ts` with the following code.
+We can create a new user by calling the `createUser` method on our `partnerClient` instance (user client). First let's modify `demo.ts` with the following code.
 
 ```typescript
 import dotenv = require("dotenv");
 dotenv.config();
 
 import Bitbutter from "./index";
-import {
     ConnectedAddressRequestBody,
     ConnectedExchangeRequestBody,
 } from "./types";
 
-const publicClient = new Bitbutter({
+const partnerClient = new Bitbutter({
+    apiKey: process.env.PARTNER_API_KEY,
     endpoint: process.env.ENDPOINT,
+    partnerId: process.env.PARTNER_ID,
     partnershipId: process.env.PARTNERSHIP_ID,
+    secret: process.env.PARTNER_SECRET,
 });
 
 async function main() {
@@ -61,7 +66,7 @@ async function main() {
 main();
 ```
 
-Here we are creating a public client with the `ENDPOINT` and `PARTNERSHIP_ID` that we provided in the `.env` file. Let's go ahead and run this file with the following command:
+Here we are creating a partner client with the `ENDPOINT`, `PARTNERSHIP_ID`, `PARTNER_ID`, `PARTNER_API_KEY` and `PARTNER_SECRET` that we provided in the `.env` file. Let's go ahead and run this file with the following command:
 
 ```
 tsc && node dist/demo.js
@@ -82,10 +87,15 @@ This command compiles our Typescript project into a JavaScript project and place
 }
 ```
 
+It is important to note that partner client will have access to administrative tasks such as creating and deleting a user. It is important that we do not store the partner credentials on the user's clients but in a secure server. Once a user is created, we can access most of the API with the user client.
+
 Now that we have information regarding the first created user, we can now create a user client to do more interesting things. First let's take the response that we got and store the necessary information in the `.env` file. Our `.env` file should look like the following now:
 
 ```
 PARTNERSHIP_ID=ac358815-7be3-4a6e-9731-90df228e4401
+PARTNER_ID=23fe7fe8-3948-448e-9ad2-5af68ca360be
+PARTNER_API_KEY=1CXv54KMQRYcFya1jPXdGCBknVt2PCVxDz
+PARTNER_SECRET=L2NhMp4WMUsPYwfog69y44TY3yGVSMQiaSs8uZ2EUvvdWsuVGhme
 ENDPOINT=https://app-8697.on-aptible.com
 USER_ID=b4f1599c-2912-42f4-b03a-452aafa5a4f0
 USER_API_KEY=1MvPzYgpf82MnZk31uFt4vCg9FF8ixgUBC
