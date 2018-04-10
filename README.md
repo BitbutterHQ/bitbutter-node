@@ -59,7 +59,7 @@ const partnerClient = new Bitbutter({
 });
 
 async function main() {
-    const newUser = await publicClient.createUser();
+    const newUser = await partnerClient.createUser();
     console.log(newUser);
 }
 

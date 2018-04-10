@@ -7,11 +7,6 @@ import {
     ConnectedExchangeRequestBody,
 } from "./types";
 
-const publicClient = new Bitbutter({
-    endpoint: process.env.ENDPOINT,
-    partnershipId: process.env.PARTNERSHIP_ID,
-});
-
 // user client to make requests to user protected routes
 const userClient = new Bitbutter({
     apiKey: process.env.USER_API_KEY,
