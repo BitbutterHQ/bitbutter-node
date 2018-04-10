@@ -32,7 +32,7 @@ export default class Bitbutter {
     }
 
     public async createUser() {
-        const firstUser = await this.postRequest(`partnerships/${this.partnershipId}/users`);
+        const firstUser = await this.postRequest(`users`);
         return firstUser;
     }
 
@@ -156,8 +156,9 @@ export default class Bitbutter {
         const timestamp = options.timestamp;
         let body = options.body;
 
-        if (typeof body !== "string") {
-            body = JSON.stringify(body);
+        // If it is an empty object set it to empty string
+        if (Object.keys(body).length === 0) {
+            body = "";
         }
 
         const prehash = timestamp + method + requestPath + body;
@@ -233,7 +234,7 @@ export default class Bitbutter {
     }
 
     private async getRequest(path) {
-        return await this.generateRequest("GET", path, "");
+        return await this.generateRequest("GET", path, {});
     }
 
     private async postRequest(path, body = {}) {
@@ -241,6 +242,6 @@ export default class Bitbutter {
     }
 
     private async deleteRequest(path) {
-        return await this.generateRequest("DELETE", path, "");
+        return await this.generateRequest("DELETE", path, {});
     }
 }
