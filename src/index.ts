@@ -153,10 +153,14 @@ export default class Bitbutter {
     private generateSignature(options: RequestOptions): string {
         const method = options.method;
         const requestPath = options.requestPath;
-        const body = options.body;
         const timestamp = options.timestamp;
+        let body = options.body;
 
-        const prehash = timestamp + method + requestPath + JSON.stringify(body);
+        if (typeof body !== "string") {
+            body = JSON.stringify(body);
+        }
+
+        const prehash = timestamp + method + requestPath + body;
         const key = new Buffer(this.secret, "base64");
         const hmac = crypto.createHmac("sha256", key);
         const signature = hmac.update(prehash).digest("base64");
@@ -229,7 +233,7 @@ export default class Bitbutter {
     }
 
     private async getRequest(path) {
-        return await this.generateRequest("GET", path, {});
+        return await this.generateRequest("GET", path, "");
     }
 
     private async postRequest(path, body = {}) {
@@ -237,6 +241,6 @@ export default class Bitbutter {
     }
 
     private async deleteRequest(path) {
-        return await this.generateRequest("DELETE", path, {});
+        return await this.generateRequest("DELETE", path, "");
     }
 }
