@@ -156,9 +156,10 @@ export default class Bitbutter {
         const timestamp = options.timestamp;
         let body = options.body;
 
-        // If it is an empty object set it to empty string
         if (Object.keys(body).length === 0) {
             body = "";
+        } else if (typeof body !== "string") {
+            body = JSON.stringify(body);
         }
 
         const prehash = timestamp + method + requestPath + body;
