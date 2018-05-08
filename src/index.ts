@@ -82,10 +82,6 @@ export default class Bitbutter {
         return await this.getRequest(`users/${userId}/balances`);
     }
 
-    public async getJobs() {
-        return await this.getRequest(`jobs`);
-    }
-
     public async getUserConnectedExchangesBalances(userId) {
         return await this.getRequest(`users/${userId}/connected-exchanges/balances`);
     }
@@ -148,6 +144,10 @@ export default class Bitbutter {
 
     public async syncConnectedExchange(connectedExchangeId) {
         return await this.getRequest(`connected-exchanges/${connectedExchangeId}/sync`);
+    }
+
+    public async syncConnectedAddress(connectedAddressId) {
+        return await this.getRequest(`connected-addresses/${connectedAddressId}/sync`);
     }
 
     private generateSignature(options: RequestOptions): string {
